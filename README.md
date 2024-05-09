@@ -16,24 +16,15 @@ Este repositório contém uma implementação em C para consulta e análise de c
    - **Objetivo:** Dado o nome de uma cidade, retornar todas as informações das N cidades vizinhas mais próximas.
    - **Descrição:** Implementação de outra tabela hash que permite pesquisar o código IBGE com base no nome da cidade. Uma vez obtido o código IBGE, o sistema utilizará a funcionalidade da Tarefa 2 para retornar os vizinhos mais próximos e a funcionalidade da Tarefa 1 para obter informações detalhadas sobre essas cidades. Em casos de cidades com nomes idênticos, será apresentada uma lista de opções para que o usuário escolha a cidade desejada.
 
-## Como Utilizar
-
-1. **Compilação e Execução:**
-   - Compile o código usando um compilador C compatível com o seu sistema operacional.
-   - Execute o programa resultante, fornecendo os inputs necessários para realizar consultas ou operações de busca conforme descrito nas tarefas acima.
-
-2. **Requisitos:**
-   - Certifique-se de ter instalado um compilador C adequado e as bibliotecas necessárias para manipulação de JSON e estruturas de dados como tabelas hash e k-d trees.
-
 ## Estrutura do Repositório
 
-- **`src/`**: Contém os arquivos fonte da implementação, incluindo módulos para manipulação de tabelas hash, k-d trees e funcionalidades relacionadas.
+- **`include/`**: Diretório para arquivos de cabeçalho (headers).
+
+- **`src/`**: Diretório para arquivos de código-fonte (source).
+
+- **`test/`**: Diretório para arquivos de teste.
   
-- **`data/`**: Armazena o arquivo `municipios.json` com as informações das cidades brasileiras.
-
-- **`docs/`**: Documentação adicional sobre o funcionamento do código, algoritmos utilizados e instruções de uso.
-
-- **`requirements.txt`**: Lista de dependências necessárias para executar o código.
+- **`data/`**: Diretório para dados necessários ao programa.
 
 ## Contribuição
 
@@ -41,4 +32,4 @@ Sinta-se à vontade para contribuir com melhorias, correções ou novas funciona
 
 ---
 
-**Nota:** Este projeto foi desenvolvido como parte de um trabalho acadêmico. As funcionalidades foram implementadas com base em conceitos de estruturas de dados e algoritmos estudados em sala de aula.
+**Nota:** Este projeto foi desenvolvido como parte de um trabalho acadêmico na disciplina de Estrutura de Dados. As funcionalidades foram implementadas com base em conceitos de estruturas de dados e algoritmos estudados em sala de aula.
