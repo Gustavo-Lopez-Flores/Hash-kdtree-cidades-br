@@ -5,7 +5,7 @@
 #include "../cJSON/cJSON.h"
 #include "../include/hash_table.h"
 
-#define define MAX_CIDADES 5570 // numero de cidades no json
+#define MAX_CIDADES 5570 // numero de cidades no json
 
 void conversao_json(const char *filename, Cidade *cidades) {
     FILE *file = fopen(filename, "r");
