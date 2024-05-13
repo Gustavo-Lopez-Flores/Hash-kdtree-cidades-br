@@ -4,9 +4,6 @@
 #include "../include/hash_table.h"
 
 int main() {
-    // Tarefa 1
-    // Digite o seguinte comando de compilação, na raiz do projeto 
-    // gcc -I./cJSON -I./include src/hash_table.c src/json_parser.c src/main.c cJSON/cJSON.c -o saida
     Hashtable hash_table;
     constroi_hash(&hash_table, 5570);
 
@@ -19,6 +16,11 @@ int main() {
         printf("Nome: %s\n", cidade->nome);
         printf("Latitude: %f\n", cidade->latitude);
         printf("Longitude: %f\n", cidade->longitude);
+        printf("Capital: %d\n", cidade->capital);
+        printf("Codigo_UF: %d\n", cidade->codigo_uf);
+        printf("Siafi_ID: %d\n", cidade->siafi_id);
+        printf("DDD: %d\n", cidade->ddd);
+        printf("Fuso horário: %s\n", cidade->fuso_horario);
     } else {
         printf("Cidade com código IBGE %d não encontrada na tabela hash.\n", codigo_ibge);
     }
