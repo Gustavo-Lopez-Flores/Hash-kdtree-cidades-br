@@ -1,10 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../include/hash_table.h"
-
-#define PRIMO1 131
-#define PRIMO2 137
 
 void constroi_hash(Hashtable *hash_table, int capacidade) {
     hash_table->cidades = (Cidade *)malloc(capacidade * sizeof(Cidade));
@@ -13,11 +9,11 @@ void constroi_hash(Hashtable *hash_table, int capacidade) {
 }
 
 int funcao_hash(int codigo_ibge, int capacidade, int tentativa) {
-    return (codigo_ibge % capacidade + tentativa * (PRIMO1 - (codigo_ibge % PRIMO2))) % capacidade;
+    return (codigo_ibge % capacidade + tentativa * (1 + codigo_ibge % (capacidade - 1))) % capacidade;
 }
 
 void insere_cidade(Hashtable *hash_table, Cidade cidade) {
-    int index = hash_function(cidade.codigo_ibge, hash_table->capacidade, 0);
+    int index = funcao_hash(cidade.codigo_ibge, hash_table->capacidade, 0);
 
     while (hash_table->cidades[index].codigo_ibge != 0) {
         index = (index + 1) % hash_table->capacidade;
@@ -28,14 +24,21 @@ void insere_cidade(Hashtable *hash_table, Cidade cidade) {
 }
 
 Cidade *procura_cidade(Hashtable *hash_table, int codigo_ibge) {
-    int index = hash_function(codigo_ibge, hash_table->capacidade, 0);
+    int index = funcao_hash(codigo_ibge, hash_table->capacidade, 0);
 
-    while (hash_table->cidades[index].codigo_ibge != 0) {
-        if (hash_table->cidades[index].codigo_ibge == codigo_ibge) {
-            return &hash_table->cidades[index];
-        }
+    while (hash_table->cidades[index].codigo_ibge != codigo_ibge) {
         index = (index + 1) % hash_table->capacidade;
+
+        if (hash_table->cidades[index].codigo_ibge == 0) {
+            return NULL;
+        }
     }
 
-    return NULL;
+    return &hash_table->cidades[index];
+}
+
+void free_hashtable(Hashtable *hash_table) {
+    free(hash_table->cidades);
+    hash_table->capacidade = 0;
+    hash_table->tamanho = 0;
 }
