@@ -2,6 +2,6 @@
 #ifndef __JSON_PARSER__
 #define __JSON_PARSER__
 
-void parse_cidades_from_json(const char *filename, Cidade *cidades);
+void conversao_json(const char *filename, Cidade *cidades);
 
 #endif
