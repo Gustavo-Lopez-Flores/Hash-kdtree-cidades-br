@@ -7,8 +7,10 @@
 typedef struct {
     int chave;
     Cidade cidade;
-} thash;
+} Objeto;
 
-thash tabela_hash[TAMANHO];
+typedef struct {
+    Objeto *table;
+} HashTable;
 
 #endif
