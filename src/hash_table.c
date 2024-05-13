@@ -26,3 +26,16 @@ void insere_cidade(Hashtable *hash_table, Cidade cidade) {
     hash_table->cidades[index] = cidade;
     hash_table->tamanho++;
 }
+
+Cidade *procura_cidade(Hashtable *hash_table, int codigo_ibge) {
+    int index = hash_function(codigo_ibge, hash_table->capacidade, 0);
+
+    while (hash_table->cidades[index].codigo_ibge != 0) {
+        if (hash_table->cidades[index].codigo_ibge == codigo_ibge) {
+            return &hash_table->cidades[index];
+        }
+        index = (index + 1) % hash_table->capacidade;
+    }
+
+    return NULL;
+}
