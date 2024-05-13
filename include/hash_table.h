@@ -23,5 +23,6 @@ void constroi_hash(Hashtable *hash_table, int capacidade);
 int funcao_hash(int codigo_ibge, int capacidade, int tentativa);
 void insere_cidade(Hashtable *hash_table, Cidade cidade);
 Cidade *procura_cidade(Hashtable *hash_table, int codigo_ibge);
+void free_hashtable(Hashtable *hash_table);
 
 #endif
