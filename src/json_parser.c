@@ -39,20 +39,30 @@ void conversao_json(const char *filename, Hashtable *hash_table) {
         return;
     }
 
-    int num_objects = cJSON_GetArraySize(root);
-    for (int i = 0; i < num_objects; i++) {
-        cJSON *obj = cJSON_GetArrayItem(root, i);
+    cJSON *cidade_obj = root;
+    cJSON *cidade_item = NULL;
 
-        int codigo_ibge = cJSON_GetObjectItem(obj, "codigo_ibge")->valueint;
-        const char *nome = cJSON_GetObjectItem(obj, "nome")->valuestring;
-        double latitude = cJSON_GetObjectItem(obj, "latitude")->valuedouble;
-        double longitude = cJSON_GetObjectItem(obj, "longitude")->valuedouble;
+    cJSON_ArrayForEach(cidade_item, cidade_obj) {
+        int codigo_ibge = cJSON_GetObjectItem(cidade_item, "codigo_ibge")->valueint;
+        const char *nome = cJSON_GetObjectItem(cidade_item, "nome")->valuestring;
+        double latitude = cJSON_GetObjectItem(cidade_item, "latitude")->valuedouble;
+        double longitude = cJSON_GetObjectItem(cidade_item, "longitude")->valuedouble;
+        int capital = cJSON_GetObjectItem(cidade_item, "capital")->valueint;
+        int codigo_uf = cJSON_GetObjectItem(cidade_item, "codigo_uf")->valueint;
+        int siafi_id = cJSON_GetObjectItem(cidade_item, "siafi_id")->valueint;
+        int ddd = cJSON_GetObjectItem(cidade_item, "ddd")->valueint;
+        const char *fuso_horario = cJSON_GetObjectItem(cidade_item, "fuso_horario")->valuestring;
 
         Cidade cidade;
         cidade.codigo_ibge = codigo_ibge;
         strcpy(cidade.nome, nome);
         cidade.latitude = latitude;
         cidade.longitude = longitude;
+        cidade.capital = capital;
+        cidade.codigo_uf = codigo_uf;
+        cidade.siafi_id = siafi_id;
+        cidade.ddd = ddd;
+        strcpy(cidade.fuso_horario, fuso_horario);
 
         insere_cidade(hash_table, cidade);
     }
