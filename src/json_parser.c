@@ -1,46 +1,62 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/json_parser.h"
 #include "../cJSON/cJSON.h"
-#include "../include/hash_table.h"
 
-#define MAX_CIDADES 5570 // numero de cidades no json
-
-void conversao_json(const char *filename, Cidade *cidades) {
+void conversao_json(const char *filename, Hashtable *hash_table) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         fprintf(stderr, "Erro ao abrir o arquivo JSON.\n");
-        exit(1);
+        perror("fopen");
+        return;
     }
 
-    char buffer[1024];
-    fread(buffer, 1, sizeof(buffer), file);
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *buffer = (char *)malloc(file_size + 1);
+    if (!buffer) {
+        fprintf(stderr, "Erro: Falha ao alocar memória para leitura do JSON.\n");
+        fclose(file);
+        return;
+    }
+
+    fread(buffer, 1, file_size, file);
     fclose(file);
+
+    buffer[file_size] = '\0';
 
     cJSON *root = cJSON_Parse(buffer);
     if (!root) {
         fprintf(stderr, "Erro ao analisar o JSON.\n");
-        exit(1);
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL) {
+            fprintf(stderr, "Erro antes da posição: %ld\n", error_ptr - buffer);
+        }
+        free(buffer);
+        return;
     }
 
-    cJSON *municipios = cJSON_GetObjectItem(root, "municipios");
-    int index = 0;
+    int num_objects = cJSON_GetArraySize(root);
+    for (int i = 0; i < num_objects; i++) {
+        cJSON *obj = cJSON_GetArrayItem(root, i);
 
-    cJSON *cidade;
-    cJSON_ArrayForEach(cidade, municipios) {
-        cidades[index].codigo_ibge = cJSON_GetObjectItem(cidade, "codigo_ibge")->valueint;
-        strcpy(cidades[index].nome, cJSON_GetObjectItem(cidade, "nome")->valuestring);
-        cidades[index].latitude = cJSON_GetObjectItem(cidade, "latitude")->valuedouble;
-        cidades[index].longitude = cJSON_GetObjectItem(cidade, "longitude")->valuedouble;
-        cidades[index].capital = cJSON_GetObjectItem(cidade, "capital")->valueint;
-        cidades[index].codigo_uf = cJSON_GetObjectItem(cidade, "codigo_uf")->valueint;
-        cidades[index].siafi_id = cJSON_GetObjectItem(cidade, "siafi_id")->valueint;
-        cidades[index].ddd = cJSON_GetObjectItem(cidade, "ddd")->valueint;
-        strcpy(cidades[index].fuso_horario, cJSON_GetObjectItem(cidade, "fuso_horario")->valuestring);
+        int codigo_ibge = cJSON_GetObjectItem(obj, "codigo_ibge")->valueint;
+        const char *nome = cJSON_GetObjectItem(obj, "nome")->valuestring;
+        double latitude = cJSON_GetObjectItem(obj, "latitude")->valuedouble;
+        double longitude = cJSON_GetObjectItem(obj, "longitude")->valuedouble;
 
-        index++;
+        Cidade cidade;
+        cidade.codigo_ibge = codigo_ibge;
+        strcpy(cidade.nome, nome);
+        cidade.latitude = latitude;
+        cidade.longitude = longitude;
+
+        insere_cidade(hash_table, cidade);
     }
 
+    free(buffer);
     cJSON_Delete(root);
 }
