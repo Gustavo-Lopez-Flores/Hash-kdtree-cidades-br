@@ -26,6 +26,8 @@ Este repositório contém uma implementação em C para consulta e análise de c
   
 - **`data/`**: Diretório para dados necessários ao programa.
 
+- **`cJSON/`**: Biblioteca para conversão do JSON em C.
+
 ## Contribuição
 
 Sinta-se à vontade para contribuir com melhorias, correções ou novas funcionalidades para este projeto. Caso tenha dúvidas ou sugestões, abra uma issue para discussão.
